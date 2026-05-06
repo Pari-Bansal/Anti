@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriBot - Your Health Ecosystem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+
+    <div id="app">
+        
+        <!-- ONBOARDING VIEW -->
+        <section id="onboarding-view" class="view active">
+            <div class="glass-card onboarding-card slide-up">
+                <div class="logo-area">
+                    <i data-feather="smile"></i>
+                    <h1>Welcome!</h1>
+                </div>
+                <p class="subtitle">Let's set up your profile for personalized health insights.</p>
+                
+                <form id="onboarding-form">
+                    <div class="form-group"><label>Name</label><input type="text" id="userName" placeholder="e.g. Alex" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Age</label><input type="number" id="userAge" required></div>
+                        <div class="form-group">
+                            <label>Sleep</label>
+                            <select id="userSleep" required>
+                                <option value="early">Early Bird</option><option value="night">Night Owl</option><option value="irregular">Irregular</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Height (cm)</label><input type="number" id="userHeight" required></div>
+                        <div class="form-group"><label>Weight (kg)</label><input type="number" id="userWeight" required></div>
+                    </div>
+                    <div class="form-group"><label>Conditions</label><input type="text" id="userConditions" placeholder="e.g. Diabetes, none"></div>
+                    <button type="submit" class="btn-primary">Enter Dashboard <i data-feather="arrow-right"></i></button>
+                </form>
+            </div>
+        </section>
+
+        <!-- MAIN APP LAYOUT -->
+        <section id="main-view" class="view">
+            <header class="app-header fade-in">
+                <div class="greeting">
+                    <h2>Hello, <span id="display-name">Friend</span>!</h2>
+                    <p id="header-date">Today</p>
+                </div>
+                <div class="profile-stats" id="goal-ring" title="Complete goals to glow!">
+                    <i data-feather="activity" class="ring-icon"></i>
+                </div>
+            </header>
+
+            <div class="main-content">
+                
+                <!-- HOME TAB -->
+                <div class="tab-content active" id="tab-home">
+                    <!-- Metrics Grid -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-header"><i data-feather="activity"></i> Steps</div>
+                            <div class="metric-value" id="val-steps">0</div>
+                            <div class="metric-sub" id="goal-steps">Goal: 10,000</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-header"><i data-feather="heart"></i> Heart Pts</div>
+                            <div class="metric-value" id="val-heart">0</div>
+                            <div class="metric-sub">Active minutes</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-header"><i data-feather="zap"></i> Energy</div>
+                            <div class="metric-value" id="val-energy">0 <span style="font-size:1rem; font-weight:500;">kcal</span></div>
+                            <div class="metric-sub">Expended</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-header"><i data-feather="pie-chart"></i> Macros</div>
+                            <div class="metric-value" style="font-size:1.2rem;" id="val-macros">Pending</div>
+                            <div class="metric-sub">Daily avg</div>
+                        </div>
+                    </div>
+
+                    <div style="text-align:center; margin-bottom: 20px;">
+                        <button class="btn-outline" id="btn-sim-steps" style="font-size:0.8rem; padding: 6px 12px;"><i data-feather="play"></i> Simulate Walking</button>
+                    </div>
+
+                    <!-- 1. Positive Reinforcement Widget -->
+                    <div class="widget gradient-green" id="streak-widget">
+                        <div class="widget-header">
+                            <i data-feather="award" style="stroke: white;"></i>
+                            <h3 style="color:white; margin:0;">Daily Motivation</h3>
+                        </div>
+                        <p id="streak-message" style="color: rgba(255,255,255,0.9);">You've hit your fiber goal 4 days in a row! You're in the top 10% of consistent eaters. Keep it up by logging today's meal!</p>
+                    </div>
+
+                    <!-- 2. Contextual / Calendar Suggestion Widget -->
+                    <div class="widget" style="background:#f8fdf9;">
+                        <div class="widget-header">
+                            <i data-feather="calendar" class="icon-accent"></i>
+                            <h3 style="margin:0;">Calendar Context</h3>
+                        </div>
+                        <p style="font-size:0.9rem;"><strong>Busy schedule detected:</strong> Back-to-back meetings from 1 PM to 5 PM.</p>
+                        <div class="suggestion-card">
+                            <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=200&q=80" alt="Healthy Meal">
+                            <div class="suggestion-info">
+                                <h4>Proactive Suggestion</h4>
+                                <p>Have a high-protein quick breakfast to prevent a mid-afternoon energy crash.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Food Log -->
+                    <div class="log-area">
+                        <h3><i data-feather="coffee" class="icon-accent"></i> Log Food</h3>
+                        <div class="log-input-group">
+                            <input type="text" id="food-input" placeholder="e.g. Avocado Toast">
+                            <button class="btn-add" id="btn-add-food"><i data-feather="plus"></i> Add</button>
+                        </div>
+                    </div>
+
+                    <!-- 3. Rule of One Widget -->
+                    <div class="widget">
+                        <div class="widget-header">
+                            <i data-feather="target" class="icon-accent"></i>
+                            <h3 style="margin:0;">Rule of One</h3>
+                        </div>
+                        <p style="margin-bottom: 12px; font-size:0.95rem;">Focus on exactly one change this week: <strong>Drink a glass of water before every meal.</strong></p>
+                        <button class="btn-outline" id="btn-habit-done">I did it today!</button>
+                    </div>
+
+                    <!-- 4. Circadian Alignment Widget -->
+                    <div class="widget">
+                        <div class="widget-header">
+                            <i data-feather="clock" class="icon-accent"></i>
+                            <h3 style="margin:0;">Circadian Alignment</h3>
+                        </div>
+                        <p id="circadian-suggestion" style="font-size:0.9rem;">Based on your sleep pattern, optimal meal timing will appear here to improve insulin sensitivity.</p>
+                    </div>
+
+                    <!-- Weekly Analysis Chart -->
+                    <div class="weekly-chart">
+                        <h3><i data-feather="bar-chart-2" class="icon-accent"></i> Weekly Analysis</h3>
+                        <p style="font-size: 0.85rem; margin-top: 5px;">Your goal consistency over 7 days.</p>
+                        <div class="chart-bars" id="weekly-chart-bars"></div>
+                    </div>
+                </div>
+
+                <!-- JOURNAL TAB -->
+                <div class="tab-content" id="tab-journal">
+                    <h3 style="margin-bottom: 20px;">Today's Activity Log</h3>
+                    <div class="journal-timeline" id="journal-feed">
+                        <p style="color:var(--text-light); font-size:0.9rem;" id="journal-empty">No activity yet. Start moving or logging food!</p>
+                    </div>
+                </div>
+
+                <!-- PROFILE TAB -->
+                <div class="tab-content" id="tab-profile">
+                    <div class="profile-header">
+                        <div class="profile-avatar"><i data-feather="user" style="width:40px; height:40px;"></i></div>
+                        <h3>Your Profile</h3>
+                    </div>
+                    <form id="profile-form">
+                        <div class="form-group"><label>Name</label><input type="text" id="prof-name"></div>
+                        <div class="form-group"><label>Age</label><input type="number" id="prof-age"></div>
+                        <div class="form-group"><label>Weight (kg)</label><input type="number" id="prof-weight"></div>
+                        <div class="form-group"><label>Height (cm)</label><input type="number" id="prof-height"></div>
+                        <div class="form-group"><label>Conditions</label><input type="text" id="prof-conditions"></div>
+                        <button type="submit" class="btn-primary">Update Profile</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <nav class="bottom-nav">
+                <button class="nav-item active" data-tab="tab-home">
+                    <i data-feather="home"></i><span>Home</span>
+                </button>
+                <button class="nav-item" data-tab="tab-journal">
+                    <i data-feather="book-open"></i><span>Journal</span>
+                </button>
+                <button class="nav-item" data-tab="tab-profile">
+                    <i data-feather="user"></i><span>Profile</span>
+                </button>
+            </nav>
+
+            <!-- FLOATING ACTION BUTTON (FAB) -->
+            <div class="fab-container" id="fab-container">
+                <div class="fab-menu" id="fab-menu">
+                    <div class="fab-item" id="fab-camera" title="Scan Plate"><i data-feather="camera"></i></div>
+                    <div class="fab-item" id="fab-chat" title="Chat with NutriGuide"><i data-feather="message-circle"></i></div>
+                </div>
+                <button class="fab-main" id="fab-main"><i data-feather="plus" id="fab-icon"></i></button>
+            </div>
+
+        </section>
+
+        <!-- OVERLAYS FOR CHAT AND CAMERA -->
+        <div class="overlay-view" id="camera-view">
+            <div class="sub-header">
+                <button class="btn-back" id="btn-close-camera"><i data-feather="chevron-down"></i> Close</button>
+                <h3 style="flex:1; text-align:center; padding-right:40px; margin:0;">Visual Intelligence</h3>
+            </div>
+            <div style="flex:1; overflow-y:auto; padding: 20px; text-align:center;">
+                <p>Instead of typing, take a 2-second video of your plate. Computer vision calculates volume and macronutrient density.</p>
+                <div class="camera-viewport">
+                    <i data-feather="camera" style="width:48px; height:48px; stroke:var(--primary-color); opacity:0.5;" id="camera-icon-center"></i>
+                    <video id="camera-stream" autoplay playsinline style="display: none; width:100%; height:100%; object-fit:cover; position:absolute; z-index:10;"></video>
+                    <div class="scanner-line" style="display: none;"></div>
+                </div>
+                <button class="btn-primary" id="btn-start-scan"><i data-feather="video"></i> Start 2-Second Sweep</button>
+                <div id="scan-results" style="display: none; margin-top: 20px; text-align:left; background:white; padding:15px; border-radius:16px;">
+                    <h3 style="color:var(--primary-color);"><i data-feather="check"></i> Scan Complete!</h3>
+                    <p><strong>Detected:</strong> Grilled Salmon, Quinoa, Asparagus.</p>
+                    <p><strong>Density:</strong> High Protein, High Fiber.</p>
+                    <button class="btn-outline" style="margin-top:15px; width:100%;" id="btn-log-scan">Log this meal</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="overlay-view" id="chat-view">
+            <div class="sub-header">
+                <button class="btn-back" id="btn-close-chat"><i data-feather="chevron-down"></i> Close</button>
+                <div style="display:flex; align-items:center; gap:10px; margin:0 auto; padding-right:40px;">
+                    <div style="width:10px; height:10px; background:#2ecc71; border-radius:50%;"></div>
+                    <h3 style="margin:0;">NutriGuide AI</h3>
+                </div>
+            </div>
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message bot">
+                        <div class="msg-bubble">Hi friend! Ask me if a food is right for you, or ask for your Daily/Weekly overview!</div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Should I eat a donut?">
+                    <button class="btn-primary" id="btn-send" style="width:50px; padding:0; border-radius:12px;"><i data-feather="send"></i></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
